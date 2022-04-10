@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = {ReservationNotAvailableException.class})
-    public ResponseEntity<ErrorObject> handleReservationNotAvailableException(
-            ReservationNotAvailableException e
+    @ExceptionHandler(value = {ReservationNotAvailableException.class, GenericRuntimeException.class})
+    public ResponseEntity<ErrorObject> handleExceptionWithBAD_REQUESTStatus(
+            RuntimeException e
     ){
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         ErrorObject errorObject = new ErrorObject(
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorObject, status);
     }
 
-    @ExceptionHandler(value = {MenuNameAlreadyTakenException.class, GenericRuntimeException.class})
+    @ExceptionHandler(value = {MenuNameAlreadyTakenException.class})
     public ResponseEntity<ErrorObject> handleExceptionWithNOT_ACCEPTABLEstatus(
         RuntimeException e
     ){

@@ -1,6 +1,7 @@
 package api.mongo.juichibackend.Reservation;
 
 import api.mongo.juichibackend.Exceptions.DateFormatException;
+import api.mongo.juichibackend.Exceptions.GenericRuntimeException;
 import api.mongo.juichibackend.Exceptions.ReservationNotAvailableException;
 import api.mongo.juichibackend.Exceptions.SeatNotReservableException;
 import api.mongo.juichibackend.Utils.Utils;
@@ -36,6 +37,9 @@ public class ReservationService {
     }
 
     public ReservationDTO addReservation(ReservationEntry entry){
+        if(!checkIfFieldsOfEntryProperlySet(entry)){
+            throw new GenericRuntimeException("One of the following required fields of the Reservation not set: \n Last Name, \n Email, \n Date, \n Time");
+        }
         if(!checkIfSeatAvailable(entry)){
             throw new SeatNotReservableException("The chosen seat(s) is/are not reservable, as it's already reserved for someone else");
         }
@@ -78,6 +82,15 @@ public class ReservationService {
 
     private boolean checkIfReservationAvailable(String token, String email) {
         return this.reservationDAO.existsByTokenEqualsAndEmailEquals(token, email);
+    }
+
+    private boolean checkIfFieldsOfEntryProperlySet(ReservationEntry entry){
+        if( entry.getEmail() == null ||
+                entry.getDate() == null ||
+                entry.getTime() == null ||
+                entry.getLastName() == null
+        ) return false;
+        return true;
     }
 
     private boolean checkIfSeatAvailable(ReservationEntry entry) {
