@@ -1,5 +1,5 @@
 # hci-jyuichi-full-stack
-The REST API connected with the `sohan-deshar/hci-jyouichi` frontend
+The REST API connected with the [sohan-deshar/hci-jyouichi](https://github.com/sohan-deshar/hci-jyouichi) frontend
 ---
 ## Requirements
 - Functioning `docker` installation with `docker-compose` in order to create mongodb and mongo-express containers for data persistence in backend.
